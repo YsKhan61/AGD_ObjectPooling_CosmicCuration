@@ -10,7 +10,7 @@ namespace CosmicCuration.Utilities
         /// Get an object from the pool. If there are no available objects, create a new one.
         /// </summary>
         /// <returns></returns>
-        public T GetObject()
+        public T GetItem()
         {
             if (pooledObjects.Count > 0)
             {
@@ -28,7 +28,7 @@ namespace CosmicCuration.Utilities
         /// Return an object to the pool.
         /// </summary>
         /// <param name="pooledObject"></param>
-        public void ReturnObject(T pooledObject)
+        public void ReturnItem(T pooledObject)
         {
             PooledObject<T> pooledObjectToReturn = pooledObjects.Find(e => e.Object.Equals(pooledObject));
             pooledObjectToReturn.IsUsed = false;
