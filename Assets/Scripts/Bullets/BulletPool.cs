@@ -13,8 +13,8 @@ namespace CosmicCuration.Bullets
             this.bulletSO = bulletSO;
         }
 
-        public BulletController GetBullet() => GetItem();
+        public BulletController GetBullet() => GetItem<BulletController>();
 
-        protected override BulletController CreateItem() => new BulletController(bulletPrefab, bulletSO);
+        protected override BulletController CreateItem<T>() => new BulletController(bulletPrefab, bulletSO);
     }
 }
