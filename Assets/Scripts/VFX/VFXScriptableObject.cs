@@ -8,6 +8,11 @@ namespace CosmicCuration.VFX
     public class VFXScriptableObject : ScriptableObject
     {
         public List<VFXData> vfxData;
+
+        public VFXData GetVFXData(VFXType type)
+        {
+            return vfxData.Find(vfx => vfx.type == type);
+        }
     }
 
     [Serializable]

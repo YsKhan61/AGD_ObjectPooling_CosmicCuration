@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CosmicCuration.VFX
 {
-    public class VFXController
+    public abstract class VFXController
     {
         private VFXView vfxView;
 
