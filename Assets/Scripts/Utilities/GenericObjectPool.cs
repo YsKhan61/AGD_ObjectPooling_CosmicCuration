@@ -5,7 +5,11 @@ namespace CosmicCuration.Utilities
     public abstract class GenericObjectPool<T> where T : class
     {
         private List<PooledObject<T>> pooledObjects = new List<PooledObject<T>>();
-
+        
+        /// <summary>
+        /// Get an object from the pool. If there are no available objects, create a new one.
+        /// </summary>
+        /// <returns></returns>
         public T GetObject()
         {
             if (pooledObjects.Count > 0)
@@ -20,6 +24,16 @@ namespace CosmicCuration.Utilities
             return CreateNewPooledObject();
         }
 
+        /// <summary>
+        /// Return an object to the pool.
+        /// </summary>
+        /// <param name="pooledObject"></param>
+        public void ReturnObject(T pooledObject)
+        {
+            PooledObject<T> pooledObjectToReturn = pooledObjects.Find(e => e.Object.Equals(pooledObject));
+            pooledObjectToReturn.IsUsed = false;
+        }
+
         private T CreateNewPooledObject()
         {
             PooledObject<T> newPooledObject = new() { Object = CreateObject()};
@@ -29,12 +43,6 @@ namespace CosmicCuration.Utilities
         }
 
         protected abstract T CreateObject();
-
-        public void ReturnObject(T pooledObject)
-        {
-            PooledObject<T> pooledObjectToReturn = pooledObjects.Find(e => e.Object.Equals(pooledObject));
-            pooledObjectToReturn.IsUsed = false;
-        }
 
         public class PooledObject<U>
         {
