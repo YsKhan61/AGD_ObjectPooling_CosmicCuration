@@ -8,12 +8,14 @@ namespace CosmicCuration.PowerUps
         private PowerUpScriptableObject powerUpScriptableObject;
         private bool isSpawning;
         private float spawnTimer;
+        private PowerUpPool powerUpPool;
 
         public PowerUpService(PowerUpScriptableObject powerUpScriptableObject)
         {
             this.powerUpScriptableObject = powerUpScriptableObject;
             spawnTimer = this.powerUpScriptableObject.spawnRate;
             isSpawning = true;
+            powerUpPool = new PowerUpPool();
         }
 
         public void Update()
@@ -25,6 +27,8 @@ namespace CosmicCuration.PowerUps
                 ResetSpawnTimer();
             }
         }
+
+        public void ReturnPowerUpToPool(PowerUpController powerUp) => powerUpPool.ReturnItem(powerUp);
 
         private void ResetSpawnTimer() => spawnTimer = powerUpScriptableObject.spawnRate;
 
@@ -50,11 +54,11 @@ namespace CosmicCuration.PowerUps
             switch (typeToFetch)
             {
                 case PowerUpType.Shield:
-                    return new Shield(fetchedData);
+                    return powerUpPool.GetPowerUp<Shield>(fetchedData);
                 case PowerUpType.DoubleTurret:
-                    return new DoubleTurret(fetchedData);
+                    return powerUpPool.GetPowerUp<DoubleTurret>(fetchedData);
                 case PowerUpType.RapidFire:
-                    return new RapidFire(fetchedData);
+                    return powerUpPool.GetPowerUp<RapidFire>(fetchedData);
                 default:
                     throw new Exception($"Failed to Create PowerUpController for: {typeToFetch}");
             }
